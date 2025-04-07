@@ -19,6 +19,7 @@
 cluster_api_github_token: ""
 
 cluster_api_provider_path: /var/lib/cluster-api/providers
+cluster_api_controller_path: /var/lib/cluster-api/controllers
 
 # cluster_api_version:
 
@@ -33,5 +34,7 @@ cluster_api_control_plane_version: "{{ cluster_api_version }}"
 
 # cluster_api_infrastructure_provider:
 # cluster_api_infrastructure_version:
+
+# cluster_api_openstack_controller_version:
 
 cluster_api_node_selector: {}

@@ -14,11 +14,14 @@
 
 - name: Create a folder for the Cluster API providers
   ansible.builtin.file:
-    path: "{{ cluster_api_provider_path }}"
+    path: "{{ item }}"
     state: directory
     mode: "0755"
     owner: root
     group: root
+  loop:
+    - "{{ cluster_api_provider_path }}"
+    - "{{ cluster_api_controller_path }}"
 
 - name: Copy over all provider configuration to the remote system
   vexxhost.kubernetes.multi_copy:
@@ -27,6 +30,17 @@
     mode: "0755"
     owner: root
     group: root
+
+- name: Copy over all provider configuration to the remote system
+  vexxhost.kubernetes.multi_copy:
+    src: "{{ role_path }}/files/controllers"
+    dest: "{{ cluster_api_controller_path }}"
+    mode: "0755"
+    owner: root
+    group: root
+  when:
+    - cluster_api_infrastructure_provider == "openstack"
+    - cluster_api_infrastructure_version is ansible.builtin.version('0.12.0', 'ge')
 
 - name: Get a list of all Cluster API providers
   run_once: true
